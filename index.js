@@ -64,21 +64,22 @@ fs.readFile(path.join(__dirname, '/data/data.csv'), 'utf8', (err, data) => {
       let totalIn = 0;
       let totalOut = 0;
       let table = new Table({
-        head: ['Date', 'Description', 'Type', 'Money in', 'Money out', 'Balance']
+        head: ['Date', 'Description', 'Type', 'Money in', 'Money out']
       });
 
       output.map(function (row) {
         if (row !== '') {
+          row.pop();
           table.push(row);
           if (parseInt(row[3])) {
-            totalIn = totalIn + parseInt(row[3]);
+            totalIn = totalIn + parseFloat(row[3]);
           }
           if (parseInt(row[4])) {
-            totalOut = totalOut + parseInt(row[4]);
+            totalOut = totalOut + parseFloat(row[4]);
           }
         }
       });
-      table.push(['', '', '', totalIn, totalOut, '']);
+      table.push(['', '', '', totalIn.toFixed(2), totalOut.toFixed(2)]);
       console.log(table.toString());
     }
   });
